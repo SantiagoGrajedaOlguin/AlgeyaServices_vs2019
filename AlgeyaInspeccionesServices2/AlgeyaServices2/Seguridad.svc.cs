@@ -33,7 +33,8 @@ namespace AlgeyaServices2
                 {
                     baseRespuesta.Succesful = false;
                 }
-                baseRespuesta.Message = result;
+                baseRespuesta.Message = "Autenticación satisfactoria";
+                baseRespuesta.Data = result;
             }
             catch (Exception ex)
             {

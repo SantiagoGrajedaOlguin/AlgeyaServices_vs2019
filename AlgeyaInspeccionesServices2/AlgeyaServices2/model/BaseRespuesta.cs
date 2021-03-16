@@ -14,5 +14,7 @@ namespace AlgeyaServices2.model
         public bool Succesful { set; get; }
         [DataMember]
         public String Message { set; get; }
+        [DataMember]
+        public object Data { set; get; }
     }
 }

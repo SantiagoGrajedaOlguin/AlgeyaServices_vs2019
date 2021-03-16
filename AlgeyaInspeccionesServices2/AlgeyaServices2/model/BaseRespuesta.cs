@@ -5,7 +5,7 @@ using System.Web;
 
 using System.Runtime.Serialization;
 
-namespace AlgeyaServices2.model
+namespace AppInspeccionServicios.model
 {
     [DataContract]
     public class BaseRespuesta

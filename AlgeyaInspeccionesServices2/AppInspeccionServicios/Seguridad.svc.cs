@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 
 using System.Web.Script.Serialization;
+using AppInspeccionServicios.model;
 
 namespace AppInspeccionServicios
 {
@@ -21,19 +22,18 @@ namespace AppInspeccionServicios
                 Dictionary<string, object> parametros = new Dictionary<string, object>();
                 parametros.Add("Usuario", user);
                 parametros.Add("Password", pass);
-                
-                //string result = new BDmanager().getEscalarString("sp_ValidarUsuario", parametros);
-                string result = "";
+                string result = new  BDmanager().getEscalarString("sp_ValidarUsuario", parametros);
 
                 if (true == string.IsNullOrEmpty(result))
                 {
                     baseRespuesta.Succesful = true;
+                    baseRespuesta.Message = "Autenticación satisfactoria";
                 }
                 else
                 {
+                    baseRespuesta.Message = "Autenticación no satisfactoria";
                     baseRespuesta.Succesful = false;
                 }
-                baseRespuesta.Message = "Autenticación satisfactoria";
                 baseRespuesta.Data = result;
             }
             catch (Exception ex)

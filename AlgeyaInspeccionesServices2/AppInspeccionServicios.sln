@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppInspeccionServicios", "AlgeyaServices2\AppInspeccionServicios.csproj", "{70AA1462-F739-4AE8-AC0B-3DED40B4008F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppInspeccionServicios", "AppInspeccionServicios\AppInspeccionServicios.csproj", "{70AA1462-F739-4AE8-AC0B-3DED40B4008F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -93,9 +93,14 @@ namespace AppInspeccionServicios
                     baseRespuesta.Message = "Datos encontrados";
                     baseRespuesta.DataCuerpo = jsonList[0];
                     baseRespuesta.DataDetalle = jsonList[1];
-                    baseRespuesta.DataBodegas  = jsonList[2];
+                    baseRespuesta.DataBodegas = jsonList[2];
                     baseRespuesta.DataBodeguero = jsonList[3];
-                    baseRespuesta.DataInternas  = jsonList[4];
+                    baseRespuesta.DataInternas = jsonList[4];
+                    baseRespuesta.DataCalidades = jsonList[5];
+                    baseRespuesta.DataArticulos = jsonList[6];
+                    baseRespuesta.DataObservaciones = jsonList[7];
+                    baseRespuesta.DataObservacionesDetalle = jsonList[8];
+                    baseRespuesta.DataResultados = jsonList[9];
                 }
                 else
                 {
@@ -106,8 +111,13 @@ namespace AppInspeccionServicios
                     baseRespuesta.DataBodegas = "";
                     baseRespuesta.DataBodeguero = "";
                     baseRespuesta.DataInternas = "";
+                    baseRespuesta.DataCalidades = "";
+                    baseRespuesta.DataArticulos = "";
+                    baseRespuesta.DataObservaciones = "";
+                    baseRespuesta.DataObservacionesDetalle = "";
+                    baseRespuesta.DataResultados = "";
                 }
-            }
+                }
             catch (Exception ex)
             {
                 baseRespuesta.Succesful = false;

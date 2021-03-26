@@ -24,6 +24,16 @@ namespace AppInspeccionServicios.model
         public object DataBodeguero { set; get; }
         [DataMember]
         public object DataInternas { set; get; }
+        [DataMember]
+        public object DataCalidades { set; get; }
+        [DataMember]
+        public object DataArticulos { set; get; }
+        [DataMember]
+        public object DataObservaciones { set; get; }
+        [DataMember]
+        public object DataObservacionesDetalle { set; get; }
+        [DataMember]
+        public object DataResultados { set; get; }
     }
 
 }

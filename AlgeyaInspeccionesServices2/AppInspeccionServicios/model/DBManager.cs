@@ -34,8 +34,7 @@ namespace AppInspeccionServicios.model
                     }
                     conexion.Open();
                     SqlDataReader dataReaderResult = comando.ExecuteReader(CommandBehavior.CloseConnection);
-                    var r = HelperJson.Serialize(dataReaderResult);
-                    result = new JavaScriptSerializer().Serialize(r);
+                    result = new JavaScriptSerializer().Serialize(HelperJson.Serialize(dataReaderResult));
                     dataReaderResult.Close();
                     conexion.Close();
                 }
@@ -45,7 +44,7 @@ namespace AppInspeccionServicios.model
 
         public String[] getMultipleJsonList(string nombreProcedimientoAlmacenado, Dictionary<string, object> parametros)
         {
-            String[] result = { "", "", "", "", "" };
+            String[] result = { "", "", "", "", "","","","","","" };
             using (SqlConnection conexion = new SqlConnection(cadenaDeConexion))
             {
                 using (SqlCommand comando = new SqlCommand(nombreProcedimientoAlmacenado, conexion))

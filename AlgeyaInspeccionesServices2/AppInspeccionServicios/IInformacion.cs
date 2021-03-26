@@ -12,16 +12,17 @@ namespace AppInspeccionServicios
     public interface IInformacion
     {
         [OperationContract]
-        String getPendientesCuerpo(string user);
+        String getPendientesCuerpo(string usuario);
         
         [OperationContract]
         String getPendientesDetalle(int idOrigen);
 
+        [OperationContract]
+        String getPendientes(string usuario);
+
         /*
         [OperationContract]
         String getArticulos(string user);
-        [OperationContract]
-        String getBodegas(string user);
         [OperationContract]
         String getBodegasInternas(string user);
         [OperationContract]

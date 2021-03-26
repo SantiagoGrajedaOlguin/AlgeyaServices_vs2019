@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -20,25 +19,23 @@ namespace AppInspeccionServicios
         //     agregue [WebGet(ResponseFormat=WebMessageFormat.Xml)]
         //     e incluya la siguiente línea en el cuerpo de la operación:
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
-        public string getPendientesCuerpo(string user)
+        public string getPendientesCuerpo(string usuario)
         {
-            model.BaseRespuesta baseRespuesta = new model.BaseRespuesta();
+            BaseRespuesta baseRespuesta = new BaseRespuesta();
             try
             {
                 Dictionary<string, object> parametros = new Dictionary<string, object>();
-                parametros.Add("Usuario", user);
-                SqlDataReader result = new BDmanager().getReader("sp_getPendientesCuerpo", parametros);
-                var r = HelperJson.Serialize(result);
-                String jsonData = new JavaScriptSerializer().Serialize(r);
-                if (jsonData.Length>2)
+                parametros.Add("Usuario", usuario);
+                String jsonList = new BDmanager().getJsonList("sp_getPendientesCuerpo", parametros);
+                if (jsonList.Length>2)
                 {
                     baseRespuesta.Succesful = true;
-                    baseRespuesta.Message = "Autenticación satisfactoria";
-                    baseRespuesta.Data = jsonData;
+                    baseRespuesta.Message = "Datos encontrados";
+                    baseRespuesta.Data = jsonList;
                 }
                 else
                 {
-                    baseRespuesta.Message = "Autenticación no satisfactoria";
+                    baseRespuesta.Message = "Datos no encontrados";
                     baseRespuesta.Succesful = false;
                     baseRespuesta.Data = "";
                 }
@@ -46,7 +43,7 @@ namespace AppInspeccionServicios
             catch (Exception ex)
             {
                 baseRespuesta.Succesful = false;
-                baseRespuesta.Message = "Error al intentar autentificar: " + ex.Message;
+                baseRespuesta.Message = "Error al intentar obtener datos: " + ex.Message;
             }
             String json = new JavaScriptSerializer().Serialize(baseRespuesta);
             return json;
@@ -54,23 +51,21 @@ namespace AppInspeccionServicios
 
         public string getPendientesDetalle(int idOrigen)
         {
-            model.BaseRespuesta baseRespuesta = new model.BaseRespuesta();
+            BaseRespuesta baseRespuesta = new BaseRespuesta();
             try
             {
                 Dictionary<string, object> parametros = new Dictionary<string, object>();
                 parametros.Add("IdOrigen", idOrigen);
-                SqlDataReader result = new BDmanager().getReader("sp_getPendientesDetalle", parametros);
-                var r = HelperJson.Serialize(result);
-                String jsonData = new JavaScriptSerializer().Serialize(r);
-                if (jsonData.Length > 2)
+                String jsonList = new BDmanager().getJsonList("sp_getPendientesDetalle", parametros);
+                if (jsonList.Length > 2)
                 {
                     baseRespuesta.Succesful = true;
-                    baseRespuesta.Message = "Autenticación satisfactoria";
-                    baseRespuesta.Data = jsonData;
+                    baseRespuesta.Message = "Datos encontrados";
+                    baseRespuesta.Data = jsonList;
                 }
                 else
                 {
-                    baseRespuesta.Message = "Autenticación no satisfactoria";
+                    baseRespuesta.Message = "Datos no encontrados";
                     baseRespuesta.Succesful = false;
                     baseRespuesta.Data = "";
                 }
@@ -78,11 +73,51 @@ namespace AppInspeccionServicios
             catch (Exception ex)
             {
                 baseRespuesta.Succesful = false;
-                baseRespuesta.Message = "Error al intentar autentificar: " + ex.Message;
+                baseRespuesta.Message = "Error al intentar obtener datos: " + ex.Message;
             }
             String json = new JavaScriptSerializer().Serialize(baseRespuesta);
             return json;
         }
+
+        public string getPendientes(string usuario)
+        {
+            BaseRespuestaMultiple baseRespuesta = new BaseRespuestaMultiple();
+            try
+            {
+                Dictionary<string, object> parametros = new Dictionary<string, object>();
+                parametros.Add("Usuario", usuario);
+                String[] jsonList = new BDmanager().getMultipleJsonList("sp_getDatosPendientesInspeccion", parametros);
+                if (jsonList.Length > 2)
+                {
+                    baseRespuesta.Succesful = true;
+                    baseRespuesta.Message = "Datos encontrados";
+                    baseRespuesta.DataCuerpo = jsonList[0];
+                    baseRespuesta.DataDetalle = jsonList[1];
+                    baseRespuesta.DataBodegas  = jsonList[2];
+                    baseRespuesta.DataBodeguero = jsonList[3];
+                    baseRespuesta.DataInternas  = jsonList[4];
+                }
+                else
+                {
+                    baseRespuesta.Message = "Datos no encontrados";
+                    baseRespuesta.Succesful = false;
+                    baseRespuesta.DataCuerpo = "";
+                    baseRespuesta.DataDetalle = "";
+                    baseRespuesta.DataBodegas = "";
+                    baseRespuesta.DataBodeguero = "";
+                    baseRespuesta.DataInternas = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                baseRespuesta.Succesful = false;
+                baseRespuesta.Message = "Error al intentar obtener datos: " + ex.Message;
+            }
+            String json = new JavaScriptSerializer().Serialize(baseRespuesta);
+            return json;
+        }
+
+
         /*
 public string getArticulos(string user)
 {

@@ -74,6 +74,7 @@
     <Compile Include="ISeguridad.cs" />
     <Compile Include="model\Articulo.cs" />
     <Compile Include="model\BaseRespuesta.cs" />
+    <Compile Include="model\BaseRespuestaMultiple.cs" />
     <Compile Include="model\Bodega.cs" />
     <Compile Include="model\DBManager.cs" />
     <Compile Include="model\HelperJson.cs" />

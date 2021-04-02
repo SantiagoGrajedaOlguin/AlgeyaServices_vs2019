@@ -19,105 +19,63 @@ namespace AppInspeccionServicios
         //     agregue [WebGet(ResponseFormat=WebMessageFormat.Xml)]
         //     e incluya la siguiente línea en el cuerpo de la operación:
         //         WebOperationContext.Current.OutgoingResponse.ContentType = "text/xml";
-        public string getPendientesCuerpo(string usuario)
-        {
-            BaseRespuesta baseRespuesta = new BaseRespuesta();
-            try
-            {
-                Dictionary<string, object> parametros = new Dictionary<string, object>();
-                parametros.Add("Usuario", usuario);
-                String jsonList = new BDmanager().getJsonList("sp_getPendientesCuerpo", parametros);
-                if (jsonList.Length>2)
-                {
-                    baseRespuesta.Succesful = true;
-                    baseRespuesta.Message = "Datos encontrados";
-                    baseRespuesta.Data = jsonList;
-                }
-                else
-                {
-                    baseRespuesta.Message = "Datos no encontrados";
-                    baseRespuesta.Succesful = false;
-                    baseRespuesta.Data = "";
-                }
-            }
-            catch (Exception ex)
-            {
-                baseRespuesta.Succesful = false;
-                baseRespuesta.Message = "Error al intentar obtener datos: " + ex.Message;
-            }
-            String json = new JavaScriptSerializer().Serialize(baseRespuesta);
-            return json;
-        }
 
-        public string getPendientesDetalle(int idOrigen)
-        {
-            BaseRespuesta baseRespuesta = new BaseRespuesta();
-            try
-            {
-                Dictionary<string, object> parametros = new Dictionary<string, object>();
-                parametros.Add("IdOrigen", idOrigen);
-                String jsonList = new BDmanager().getJsonList("sp_getPendientesDetalle", parametros);
-                if (jsonList.Length > 2)
-                {
-                    baseRespuesta.Succesful = true;
-                    baseRespuesta.Message = "Datos encontrados";
-                    baseRespuesta.Data = jsonList;
-                }
-                else
-                {
-                    baseRespuesta.Message = "Datos no encontrados";
-                    baseRespuesta.Succesful = false;
-                    baseRespuesta.Data = "";
-                }
-            }
-            catch (Exception ex)
-            {
-                baseRespuesta.Succesful = false;
-                baseRespuesta.Message = "Error al intentar obtener datos: " + ex.Message;
-            }
-            String json = new JavaScriptSerializer().Serialize(baseRespuesta);
-            return json;
-        }
-
-        public string getPendientes(string usuario)
+        public string getPendientes(string usuario, string password)
         {
             BaseRespuestaMultiple baseRespuesta = new BaseRespuestaMultiple();
             try
             {
-                Dictionary<string, object> parametros = new Dictionary<string, object>();
-                parametros.Add("Usuario", usuario);
-                String[] jsonList = new BDmanager().getMultipleJsonList("sp_getDatosPendientesInspeccion", parametros);
-                if (jsonList.Length > 2)
+                //inicializar resultados
+                baseRespuesta.DataCuerpo = "";
+                baseRespuesta.DataDetalle = "";
+                baseRespuesta.DataBodegas = "";
+                baseRespuesta.DataBodeguero = "";
+                baseRespuesta.DataInternas = "";
+                baseRespuesta.DataCalidades = "";
+                baseRespuesta.DataArticulos = "";
+                baseRespuesta.DataObservaciones = "";
+                baseRespuesta.DataObservacionesDetalle = "";
+                baseRespuesta.DataResultados = "";
+
+                //autentificar usuario
+                Dictionary<string, object> parametrosLogin = new Dictionary<string, object>();
+                parametrosLogin.Add("Usuario", usuario);
+                parametrosLogin.Add("Password", password);
+                string result = new BDmanager().getEscalarString("sp_ValidarUsuario", parametrosLogin);
+                //-------------------------------------------------------------------------------------
+
+                if (true == string.IsNullOrEmpty(result))
                 {
-                    baseRespuesta.Succesful = true;
-                    baseRespuesta.Message = "Datos encontrados";
-                    baseRespuesta.DataCuerpo = jsonList[0];
-                    baseRespuesta.DataDetalle = jsonList[1];
-                    baseRespuesta.DataBodegas = jsonList[2];
-                    baseRespuesta.DataBodeguero = jsonList[3];
-                    baseRespuesta.DataInternas = jsonList[4];
-                    baseRespuesta.DataCalidades = jsonList[5];
-                    baseRespuesta.DataArticulos = jsonList[6];
-                    baseRespuesta.DataObservaciones = jsonList[7];
-                    baseRespuesta.DataObservacionesDetalle = jsonList[8];
-                    baseRespuesta.DataResultados = jsonList[9];
+                    Dictionary<string, object> parametros = new Dictionary<string, object>();
+                    parametros.Add("Usuario", usuario);
+                    String[] jsonList = new BDmanager().getMultipleJsonList("sp_getDatosPendientesInspeccion", parametros);
+                    if (jsonList.Length > 2)
+                    {
+                        baseRespuesta.Succesful = true;
+                        baseRespuesta.Message = "Datos encontrados";
+                        baseRespuesta.DataCuerpo = jsonList[0];
+                        baseRespuesta.DataDetalle = jsonList[1];
+                        baseRespuesta.DataBodegas = jsonList[2];
+                        baseRespuesta.DataBodeguero = jsonList[3];
+                        baseRespuesta.DataInternas = jsonList[4];
+                        baseRespuesta.DataCalidades = jsonList[5];
+                        baseRespuesta.DataArticulos = jsonList[6];
+                        baseRespuesta.DataObservaciones = jsonList[7];
+                        baseRespuesta.DataObservacionesDetalle = jsonList[8];
+                        baseRespuesta.DataResultados = jsonList[9];
+                    }
+                    else
+                    {
+                        baseRespuesta.Message = "Datos no encontrados";
+                        baseRespuesta.Succesful = false;
+                    }
                 }
                 else
                 {
-                    baseRespuesta.Message = "Datos no encontrados";
+                    baseRespuesta.Message = "Autenticación no satisfactoria";
                     baseRespuesta.Succesful = false;
-                    baseRespuesta.DataCuerpo = "";
-                    baseRespuesta.DataDetalle = "";
-                    baseRespuesta.DataBodegas = "";
-                    baseRespuesta.DataBodeguero = "";
-                    baseRespuesta.DataInternas = "";
-                    baseRespuesta.DataCalidades = "";
-                    baseRespuesta.DataArticulos = "";
-                    baseRespuesta.DataObservaciones = "";
-                    baseRespuesta.DataObservacionesDetalle = "";
-                    baseRespuesta.DataResultados = "";
                 }
-                }
+            }
             catch (Exception ex)
             {
                 baseRespuesta.Succesful = false;
@@ -126,40 +84,6 @@ namespace AppInspeccionServicios
             String json = new JavaScriptSerializer().Serialize(baseRespuesta);
             return json;
         }
-
-
-        /*
-public string getArticulos(string user)
-{
-   string result = "";
-   return result;
-}
-public string getBodegas(string user)
-{
-   string result = "";
-   return result;
-}
-public string getBodegasInternas(string user)
-{
-   string result = "";
-   return result;
-}
-public string getClientes(string user)
-{
-   string result = "";
-   return result;
-}
-public string getObservaciones(string user)
-{
-   string result = "";
-   return result;
-}
-public string getObservacionesDetalle(string user)
-{
-   string result = "";
-   return result;
-}
-*/
 
     }
 }

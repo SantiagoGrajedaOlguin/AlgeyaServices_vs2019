@@ -56,20 +56,28 @@ namespace AppInspeccionServicios.model
                             comando.Parameters.Add(new SqlParameter(parametro.Key, parametro.Value));
                     }
                     conexion.Open();
+
+                    //Cuerpo
                     SqlDataReader dataReaderResult = comando.ExecuteReader(CommandBehavior.CloseConnection);
                     result[0] = new JavaScriptSerializer().Serialize(HelperJson.Serialize(dataReaderResult));
-
+                    //Detalle
                     dataReaderResult.NextResult();
                     result[1] = new JavaScriptSerializer().Serialize(HelperJson.Serialize(dataReaderResult));
-
+                    //Bodegas
                     dataReaderResult.NextResult();
                     result[2] = new JavaScriptSerializer().Serialize(HelperJson.Serialize(dataReaderResult));
-
+                    //Bodeguero
                     dataReaderResult.NextResult();
                     result[3] = new JavaScriptSerializer().Serialize(HelperJson.Serialize(dataReaderResult));
-
+                    //Bodegas Internas
                     dataReaderResult.NextResult();
                     result[4] = new JavaScriptSerializer().Serialize(HelperJson.Serialize(dataReaderResult));
+
+                    //Calidades
+                    //Articulos
+                    //Observaciones
+                    //Observaciones detalle
+                    //Resultados
 
                     dataReaderResult.Close();
                     conexion.Close();

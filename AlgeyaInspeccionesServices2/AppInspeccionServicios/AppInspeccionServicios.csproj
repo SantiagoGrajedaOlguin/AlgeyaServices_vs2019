@@ -64,6 +64,7 @@
   <ItemGroup>
     <Content Include="Informacion.svc" />
     <Content Include="Seguridad.svc" />
+    <Content Include="Sincronizacion.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,7 @@
       <DependentUpon>Informacion.svc</DependentUpon>
     </Compile>
     <Compile Include="ISeguridad.cs" />
+    <Compile Include="ISincronizacion.cs" />
     <Compile Include="model\Articulo.cs" />
     <Compile Include="model\BaseRespuesta.cs" />
     <Compile Include="model\BaseRespuestaMultiple.cs" />
@@ -81,6 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad.svc.cs">
       <DependentUpon>Seguridad.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Sincronizacion.svc.cs">
+      <DependentUpon>Sincronizacion.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
